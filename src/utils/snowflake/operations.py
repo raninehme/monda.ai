@@ -253,8 +253,8 @@ class _PipeOps(_BaseOps):
         )
         self.client.execute(sql)
 
-    def trigger(self, delay: int = 3, max_wait: int = 120, settle_wait: int = 20):
-        """Trigger Snowpipe ingestion and wait for completion."""
+    def trigger(self, delay: int = 3, max_wait: int = 120, settle_wait: int = 60):
+        """Trigger Snowpipe ingestion, wait for completion, and allow metadata to settle."""
         pipe_name = f"{self.raw_db}.{self.schema}.{self.table}"
         self.client.execute(f"ALTER PIPE {pipe_name} REFRESH;")
         print(f"[INFO] Triggered Snowpipe refresh for {pipe_name}")
@@ -262,21 +262,21 @@ class _PipeOps(_BaseOps):
         self._wait_for_pipe(pipe_name, delay, max_wait)
         print(f"[INFO] Waiting {settle_wait}s for ingestion metadata to settle...")
         time.sleep(settle_wait)
+        print(f"[INFO] Proceeding after metadata settle delay.")
 
     def _wait_for_pipe(self, pipe_name: str, delay: int = 3, max_wait: int = 30):
         """Poll SYSTEM$PIPE_STATUS until Snowpipe completes."""
         start_time = time.time()
-
         while time.time() - start_time < max_wait:
             raw_status = self.client.execute(f"SELECT SYSTEM$PIPE_STATUS('{pipe_name}')")[0][0]
             status = json.loads(raw_status)
-
             pending = int(status.get("pendingFileCount") or 0)
             state = status.get("executionState")
             last_path = status.get("lastIngestedFilePath")
             last_ts = status.get("lastIngestedTimestamp")
 
-            print(f"[DEBUG] Pipe {pipe_name}: state={state}, pending={pending}, lastFile={last_path}, lastIngested={last_ts}")
+            print(
+                f"[DEBUG] Pipe {pipe_name}: state={state}, pending={pending}, lastFile={last_path}, lastIngested={last_ts}")
             if pending == 0 and last_path:
                 print(f"[INFO] Pipe {pipe_name} finished ingestion ({last_path})")
                 return
