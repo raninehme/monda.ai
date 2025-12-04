@@ -47,17 +47,18 @@ SNOWFLAKE_WAREHOUSE=<warehouse>
 
 The pipeline simulates a minimal yet realistic multi-layer **lakehouse architecture**:
 
-| Layer       | Description                                           | Key Features                                               |
-| ----------- | ----------------------------------------------------- | ---------------------------------------------------------- |
-| **RAW**     | Ingests CSVs from MinIO into Snowflake internal stage | `INFER_SCHEMA`, `USING TEMPLATE`, dynamic file staging     |
-| **STAGING** | Deduplicated, flattened relational tables             | Dynamic schema evolution, `MERGE` with sort & primary keys |
-| **CURATED** | Filtered tables or secure views                       | Configurable filters, optional `SECURE VIEW` creation      |
+| Layer       | Description                                           | Key Features                                                      |
+| ----------- | ----------------------------------------------------- |-------------------------------------------------------------------|
+| **RAW**     | Ingests CSVs from MinIO into Snowflake internal stage | `INFER_SCHEMA`, `USING TEMPLATE`, Schema Evolution                |
+| **STAGING** | Deduplicated, flattened relational tables             | Dynamic schema evolution, `MERGE` with sort & primary keys, Dedup |
+| **CURATED** | Filtered tables or secure views                       | Configurable filters, optional `SECURE VIEW` creation             |
 
 ---
 
 ### **Core Behavior**
 
 * **Fully config-driven** via YAML — schema, paths, keys, and flatten logic are declarative.
+  * You can change all settings through config/<config_file>. In this case user_activity.yaml
 * Uses **Snowflake-native primitives**:
 
   * **Schema inference** via `INFER_SCHEMA` and `USING TEMPLATE`
@@ -138,8 +139,9 @@ All runs are **idempotent** — re-execution safely reprocesses data without dup
 
 ## **4) Limitations**
 
-* Uses **internal stages** instead of S3 external stages (MinIO has no native eventing).
-* **Snowpipe auto-ingest** is simulated through polling (`SYSTEM$PIPE_STATUS`).
+* Uses **internal stages** instead of S3 external stages (Snowflake External Stages can't connect to localhost).
+* **Snowpipe auto-ingest** is manually triggered for new data due to lack of SNS/SQS.
+* Accountadmin is used on Snowflake to avoid ACL issues.
 * Designed for **local testing and demonstration**, not production-scale automation.
 
 ### In production:
