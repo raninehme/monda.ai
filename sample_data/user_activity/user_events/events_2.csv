@@ -1,0 +1,5 @@
+id,name,country,event_type,event_date,event_metadata
+3,Lukas,DE,purchase,2025-01-06 15:10:00,"{\"user_id\": 789, \"amount\": 99.99, \"currency\": \"EUR\", \"device\": \"desktop\"}"
+11,Lea,SE,signup,2025-01-15 09:30:00,"{\"user_id\": 111, \"session_duration\": 20, \"referrer\": \"twitter\"}"
+12,Jonas,DE,login,2025-01-15 10:10:00,"{\"user_id\": 112, \"session_duration\": 7, \"device\": \"mobile\"}"
+13,Emma,IT,purchase,2025-01-16 16:45:00,"{\"user_id\": 113, \"amount\": 49.90, \"currency\": \"EUR\", \"payment_method\": \"credit_card\"}"

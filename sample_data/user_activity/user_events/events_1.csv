@@ -1,0 +1,11 @@
+id,name,country,event_type,event_date,event_metadata
+1,John,DE,signup,2025-01-01 08:30:00,"{\"user_id\": 123, \"session_duration\": 45, \"device\": \"mobile\", \"referrer\": \"google\"}"
+2,Maria,FR,purchase,2025-01-02 12:15:23,"{\"user_id\": 456, \"amount\": 120.5, \"currency\": \"EUR\", \"items\": 3}"
+3,Lukas,DE,signup,2025-01-05 09:47:10,"{\"user_id\": 789, \"session_duration\": 30, \"device\": \"desktop\"}"
+4,Sophia,ES,login,2025-01-05 20:12:45,"{\"user_id\": 321, \"session_duration\": 10, \"device\": \"tablet\"}"
+5,Noah,DE,purchase,2025-01-07 14:03:59,"{\"user_id\": 654, \"amount\": 59.99, \"currency\": \"EUR\", \"items\": 1, \"payment_method\": \"paypal\"}"
+6,Emma,IT,signup,2025-01-09 10:22:33,"{\"user_id\": 987, \"session_duration\": 25, \"referrer\": \"facebook\"}"
+7,Oliver,NL,logout,2025-01-10 18:45:01,"{\"user_id\": 222, \"session_duration\": 15}"
+8,Mila,FR,purchase,2025-01-12 11:31:12,"{\"user_id\": 333, \"amount\": 210.0, \"currency\": \"EUR\", \"items\": 5}"
+9,Lucas,DE,login,2025-01-13 07:55:44,"{\"user_id\": 999, \"session_duration\": 5, \"device\": \"mobile\"}"
+10,Amelia,ES,signup,2025-01-14 21:07:30,"{\"user_id\": 555, \"session_duration\": 50, \"referrer\": \"linkedin\"}"

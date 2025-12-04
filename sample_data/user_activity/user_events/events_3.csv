@@ -1,0 +1,4 @@
+id,name,country,event_type,event_date,event_metadata,source_platform
+14,Hanna,DE,signup,2025-01-17 09:45:00,"{\"user_id\": 114, \"session_duration\": 35, \"device\": \"mobile\"}",android
+15,Marco,ES,purchase,2025-01-18 14:30:00,"{\"user_id\": 115, \"amount\": 85.50, \"currency\": \"EUR\", \"payment_method\": \"paypal\"}",web
+16,Isabella,FR,login,2025-01-19 18:05:00,"{\"user_id\": 116, \"session_duration\": 10, \"device\": \"desktop\"}",ios
