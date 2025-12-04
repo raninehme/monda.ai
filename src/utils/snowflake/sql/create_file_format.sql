@@ -1,0 +1,12 @@
+CREATE OR ALTER FILE FORMAT {{ database }}.{{ schema }}.{{ name }}
+    TYPE = 'CSV'
+    FIELD_DELIMITER = ','
+    RECORD_DELIMITER = '\n'
+    PARSE_HEADER = TRUE
+    FIELD_OPTIONALLY_ENCLOSED_BY = '"'
+    ESCAPE_UNENCLOSED_FIELD = NONE
+    ESCAPE = '\\'
+    TRIM_SPACE = TRUE
+    ERROR_ON_COLUMN_COUNT_MISMATCH = FALSE
+    NULL_IF = ('', 'NULL', 'null')
+    COMPRESSION = 'AUTO';
