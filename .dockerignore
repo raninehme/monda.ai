@@ -1,0 +1,18 @@
+# Local dev artifacts
+.idea/
+.python-version
+__pycache__/
+*.pyc
+*.pyo
+*.log
+
+# Git + docs
+.git/
+.gitignore
+README*
+LICENSE*
+
+# Build + runtime
+Makefile
+docker-compose.yaml
+.env

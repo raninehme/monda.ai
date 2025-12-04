@@ -1,0 +1,5 @@
+# Core dependencies
+prefect==3.6.4
+snowflake-connector-python==4.1.1
+minio==7.2.20
+PyYAML==6.0.3
