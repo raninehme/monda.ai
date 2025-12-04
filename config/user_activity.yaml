@@ -1,0 +1,66 @@
+global:
+  utils_database: RAW
+  utils_schema: UTILS
+  file_format: csv_format
+  bucket_name: raw
+
+  databases:
+    raw: RAW
+    staging: STAGING
+    curated: CURATED
+
+  system_columns:
+    - name: __INGESTED_TIMESTAMP
+      type: TIMESTAMP_LTZ
+      expression: METADATA$START_SCAN_TIME
+    - name: __FILE_NAME
+      type: STRING
+      expression: METADATA$FILENAME
+    - name: __FILE_ROW_NUMBER
+      type: NUMBER
+      expression: METADATA$FILE_ROW_NUMBER
+    - name: __FILE_CHECKSUM
+      type: STRING
+      expression: METADATA$FILE_CONTENT_KEY
+    - name: __FILE_LAST_MODIFIED
+      type: TIMESTAMP_NTZ
+      expression: METADATA$FILE_LAST_MODIFIED
+
+pipelines:
+  - namespace: USER_EVENTS
+    schema: USER_ACTIVITY
+    bucket_path: user_activity/user_events
+    description: "User events dataset"
+    max_file_count: 5
+
+    column_overrides:
+      event_metadata: VARIANT
+
+    staging:
+      primary_keys: ["ID", "EVENT_TYPE", "EVENT_DATE"]
+      sort_key: ["__INGESTED_TIMESTAMP"]
+      exclude_columns: ["EVENT_METADATA"]
+
+      flatten_columns:
+        - column: EVENT_METADATA
+          fields:
+            - "EVENT_METADATA:user_id::NUMBER AS USER_ID"
+            - "EVENT_METADATA:session_duration::NUMBER AS SESSION_DURATION"
+            - "EVENT_METADATA:device::STRING AS DEVICE"
+            - "EVENT_METADATA:referrer::STRING AS REFERRER"
+            - "EVENT_METADATA:amount::FLOAT AS AMOUNT"
+            - "EVENT_METADATA:currency::STRING AS CURRENCY"
+            - "EVENT_METADATA:items::NUMBER AS ITEMS"
+            - "EVENT_METADATA:payment_method::STRING AS PAYMENT_METHOD"
+
+    subsets:
+      - name: USER_EVENTS_DE_SIGNUP
+        filters:
+          - "COUNTRY = 'DE'"
+          - "EVENT_TYPE = 'signup'"
+        secure: true
+
+      - name: USER_EVENTS_PURCHASES
+        filters:
+          - "EVENT_TYPE = 'purchase'"
+        secure: false
